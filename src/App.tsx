@@ -9,12 +9,14 @@ import Contacts from './pages/Contacts'
 import Cart from './pages/Cart'
 import SingleProduct from './pages/SingleProduct'
 import ErrorPages from './pages/ErrorPages'
+import Header from './components/Header'
 
 function App() {
   return (
     <ChakraProvider>
       <ColorModeProvider>
         <Router>
+          <Header />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/about' element={<About />} />
