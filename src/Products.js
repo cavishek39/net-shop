@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-const Products = () => {
-  return <Wrapper></Wrapper>;
-};
+export const Products = () => {
+  return <Wrapper></Wrapper>
+}
 
 const Wrapper = styled.section`
   .grid-filter-column {
@@ -15,6 +15,4 @@ const Wrapper = styled.section`
       grid-template-columns: 1fr;
     }
   }
-`;
-
-export default Products;
+`
