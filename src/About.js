@@ -1,5 +1,6 @@
 import React from 'react'
+import { HeroSection } from './components/HeroSection'
 
 export const About = () => {
-  return <div>About</div>
+  return <HeroSection title='NetShop' buttonTitle='Shop now' />
 }

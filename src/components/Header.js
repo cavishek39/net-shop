@@ -20,7 +20,7 @@ export const Header = () => {
   return (
     <MainHeader>
       <NavLink to='/'>
-        <img src='./images/logo.png' alt='my logo img' />
+        <h1>NetShop</h1>
       </NavLink>
       <Navbar />
     </MainHeader>

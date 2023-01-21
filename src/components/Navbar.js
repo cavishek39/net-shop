@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { FiShoppingCart } from 'react-icons/fi'
@@ -32,7 +32,7 @@ const NavStyles = styled.nav`
     cursor: pointer;
     border: none;
   }
-  .mobile-nav-icon[name='close-outline'] {
+  .mobile-nav--icon[name='close-outline'] {
     display: none;
   }
   .close-outline {
@@ -71,12 +71,12 @@ const NavStyles = styled.nav`
       display: inline-block;
       z-index: 9999;
       border: ${({ theme }) => theme.colors.black};
-      .mobile-nav-icon {
+      .mobile-nav--icon {
         font-size: 4.2rem;
         color: ${({ theme }) => theme.colors.black};
       }
     }
-    .active .mobile-nav-icon {
+    .active .mobile-nav--icon {
       display: none;
       font-size: 4.2rem;
       position: absolute;
@@ -137,9 +137,11 @@ const NavStyles = styled.nav`
 `
 
 export const Navbar = () => {
+  const [showMenuIcon, setShowMenuIcon] = useState()
+
   return (
     <NavStyles>
-      <div className='navbar'>
+      <div className={showMenuIcon ? 'navbar active' : 'navbar'}>
         <ul className='navbar-lists'>
           <li>
             <NavLink to='/' className='navbar-link'>
@@ -169,10 +171,15 @@ export const Navbar = () => {
           </li>
         </ul>
         <div className='mobile-navbar--btn'>
-          <CgMenu name='menu-outline' className='mobile-nav-icon' />
+          <CgMenu
+            name='menu-outline'
+            className='mobile-nav--icon'
+            onClick={() => setShowMenuIcon(true)}
+          />
           <CgClose
             name='close-outline'
-            className='mobile-nav-icon close-outline'
+            className='mobile-nav--icon close-outline'
+            onClick={() => setShowMenuIcon(false)}
           />
         </div>
       </div>
