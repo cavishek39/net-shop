@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { Helper } from '../utils/helpers'
 
 const Product = (curElem) => {
   const { id, title, image, price, category } = curElem
@@ -15,7 +16,9 @@ const Product = (curElem) => {
         <div className='card-data'>
           <div className='card-data-flex'>
             <h3>{title}</h3>
-            <p className='card-data--price'>{`₹${Number(price) * 80}`}</p>
+            <p className='card-data--price'>
+              {Helper.getIndianCurrencyAmount(Number(price) * 80)}
+            </p>
           </div>
         </div>
       </div>

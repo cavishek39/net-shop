@@ -4,7 +4,13 @@
  * 3. Consumer => useContext hook
  */
 
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
 import reducer from '../reducer/product'
 
 const API_URL = 'https://fakestoreapi.com/products?limit=10'
@@ -16,10 +22,13 @@ const initialState = {
   isError: false,
   products: [],
   featureProducts: [],
+  isLoadingSingleProduct: false,
+  singleProduct: {},
 }
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [productId, setProductId] = useState()
 
   useEffect(() => {
     // Set loading to true while we're fetching data
@@ -39,8 +48,26 @@ const AppProvider = ({ children }) => {
     })
   }, [])
 
+  useEffect(() => {
+    dispatch({ type: 'SET_LOADING_SINGLE_PRODUCT' })
+
+    fetch(`https://fakestoreapi.com/products/${productId}`).then((response) => {
+      response
+        .json()
+        .then((data) => {
+          dispatch({ type: 'SET_SINGLE_PRODUCT', payload: data })
+        })
+        .catch((err) => {
+          dispatch({ type: 'API_ERROR' })
+          console.error(err.message)
+        })
+    })
+  }, [productId])
+
   return (
-    <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ ...state, setProductId }}>
+      {children}
+    </AppContext.Provider>
   )
 }
 
