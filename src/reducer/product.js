@@ -19,6 +19,7 @@ const productReducer = (state, action) => {
       return {
         ...state,
         isLoadingSingleProduct: false,
+        selectedProductId: action.payload?.id,
       }
 
     case 'SET_SINGLE_PRODUCT':

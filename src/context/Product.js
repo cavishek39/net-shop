@@ -6,10 +6,10 @@
 
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
-  useState,
 } from 'react'
 import reducer from '../reducer/product'
 
@@ -28,7 +28,6 @@ const initialState = {
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [productId, setProductId] = useState()
 
   useEffect(() => {
     // Set loading to true while we're fetching data
@@ -48,8 +47,10 @@ const AppProvider = ({ children }) => {
     })
   }, [])
 
-  useEffect(() => {
+  const getSingleProductDetails = useCallback((productId = 0) => {
     dispatch({ type: 'SET_LOADING_SINGLE_PRODUCT' })
+
+    // console.log('selectedProductId in Product context ', productId)
 
     fetch(`https://fakestoreapi.com/products/${productId}`).then((response) => {
       response
@@ -62,10 +63,14 @@ const AppProvider = ({ children }) => {
           console.error(err.message)
         })
     })
-  }, [productId])
+  }, [])
+
+  useEffect(() => {
+    getSingleProductDetails()
+  }, [getSingleProductDetails])
 
   return (
-    <AppContext.Provider value={{ ...state, setProductId }}>
+    <AppContext.Provider value={{ ...state, getSingleProductDetails }}>
       {children}
     </AppContext.Provider>
   )

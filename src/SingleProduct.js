@@ -1,6 +1,98 @@
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { useProductContext } from './context/Product'
+
+import { Container } from './styles/Container'
+import { MdSecurity } from 'react-icons/md'
+import { TbTruckDelivery, TbReplace } from 'react-icons/tb'
+import { Helper } from './utils/helpers'
+import PageNavigation from './components/PageNavigation'
+import Image from './components/Image'
+import Stars from './components/Stars'
+
 const SingleProduct = () => {
-  return <Wrapper></Wrapper>
+  const { id } = useParams()
+  const { getSingleProductDetails, isLoadingSingleProduct, singleProduct } =
+    useProductContext()
+
+  useEffect(() => {
+    getSingleProductDetails(id)
+  }, [id, getSingleProductDetails])
+
+  const { title, price, description, category, image, rating } = singleProduct
+
+  if (isLoadingSingleProduct) {
+    return <div className='page_loading'>Loading...</div>
+  }
+
+  return (
+    <Wrapper>
+      <PageNavigation title={category} />
+      <Container className='container'>
+        <div className='grid grid-two-column'>
+          {/* product Images  */}
+          <div className='product_images'>
+            <Image imageUrl={image} />
+          </div>
+
+          {/* product data  */}
+          <div className='product-data'>
+            <h2>{title}</h2>
+            <Stars ratings={rating?.rate} reviews={rating?.count} />
+            {/* <p>{`${rating?.rate}*`}</p>
+            <p>{rating?.count} reviews</p> */}
+            <p>Special price</p>
+
+            <del>
+              <p className='product-data-price'>
+                {`MRP: ${Helper.getIndianCurrencyAmount(
+                  Number(price) * 80 * 1.5
+                )}`}
+              </p>
+            </del>
+            <p className='product-data-price product-data-real-price'>
+              {`Deal of the Day:: ${Helper.getIndianCurrencyAmount(
+                Number(price) * 80
+              )}`}
+            </p>
+            <p>{description}</p>
+            <div className='product-data-warranty'>
+              <div className='product-warranty-data'>
+                <TbTruckDelivery className='warranty-icon' />
+                <p>Free Delivery</p>
+              </div>
+
+              <div className='product-warranty-data'>
+                <TbReplace className='warranty-icon' />
+                <p>30 Days Replacement</p>
+              </div>
+
+              <div className='product-warranty-data'>
+                <TbTruckDelivery className='warranty-icon' />
+                <p>Product Delivered </p>
+              </div>
+
+              <div className='product-warranty-data'>
+                <MdSecurity className='warranty-icon' />
+                <p>1 Year Warranty </p>
+              </div>
+            </div>
+
+            <div className='product-data-info'>
+              <p>
+                Available:
+                <span> In Stock</span>
+              </p>
+              {/* <p>
+                Brand :<span> {company} </span>
+              </p> */}
+            </div>
+          </div>
+        </div>
+      </Container>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`
